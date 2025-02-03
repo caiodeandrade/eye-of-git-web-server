@@ -23,7 +23,7 @@ app.post('/webhook', async (req, res) => {
       const user = pullRequest.user.login;
 
       // Monta a mensagem para enviar no Discord
-      const content = `:octocat: **Pull Request** \`${action}\` por **${user}**:\n` +
+      const content = `**Pull Request** \`${action}\` por **${user}**:\n` +
                       `**Título:** ${title}\n` +
                       `**Link:** ${url}`;
 

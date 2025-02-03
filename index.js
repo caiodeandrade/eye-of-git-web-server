@@ -1,4 +1,7 @@
-require('dotenv').config(); // se quiser carregar variáveis de ambiente de um .env
+// Carregando variaveis de ambiente
+require('dotenv').config();
+
+// Imports
 const express = require('express');
 const axios = require('axios');
 
@@ -9,13 +12,13 @@ app.use(express.json());
 
 // Rota que recebe o webhook
 app.post('/webhook', async (req, res) => {
-  // Verifica se é um evento de pull_request
+  // Captura o tipo de evento enviado pelo GitHub a partir do cabeçalho "x-github-event"
   const githubEvent = req.headers['x-github-event'];
   
   if (githubEvent === 'pull_request') {
     const action = req.body.action;
     
-    // Filtra as ações que você quer (opened, closed, etc.)
+    // Filtra as ações (opened e closed)
     if (action === 'opened' || action === 'closed') {
       const pullRequest = req.body.pull_request;
       const title = pullRequest.title;
@@ -29,8 +32,7 @@ app.post('/webhook', async (req, res) => {
 
       try {
         await axios.post(process.env.DISCORD_WEBHOOK_URL, {
-          // "content" será exibido como texto simples.
-          // Se quiser formatar mais elaboradamente, use "embeds".
+          // "content" será exibido como texto simples(possível formatar mais elaboradamente, usando "embeds").
           content
         });
         console.log('Mensagem enviada para o Discord com sucesso!');
